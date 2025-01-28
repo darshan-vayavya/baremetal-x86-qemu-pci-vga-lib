@@ -51,7 +51,7 @@ void print(const char *s, VGA_Color fg, VGA_Color bg) {
     }
 }
 
-void print_i(int value, VGA_Color fg, VGA_Color bg) {
+void print_i(long int value, VGA_Color fg, VGA_Color bg) {
     char buffer[12];  // Enough to hold "-2147483648\0"
     char *ptr = buffer + sizeof(buffer) - 1;
     *ptr = '\0';
@@ -122,3 +122,15 @@ void set_cursor(int x, int y) {
         cursor_y = y;
     }
 }
+
+static void print_hex(uint32_t value) {
+    char buffer[9];
+    for (int i = 7; i >= 0; i--) {
+        int nibble = (value >> (i * 4)) & 0xF;
+        buffer[7 - i] = nibble < 10 ? ('0' + nibble) : ('A' + (nibble - 10));
+    }
+    buffer[8] = '\0';
+    print(buffer, COLOR_GREEN, COLOR_BLACK);
+}
+
+static void newline() { print_char(COLOR_GREEN, COLOR_BLACK, '\n'); }

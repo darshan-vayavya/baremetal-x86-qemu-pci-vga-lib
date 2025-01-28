@@ -128,6 +128,22 @@ Good resource:
    void print_colored(const char *string, uint8_t color);
    ```
 
+8. **`print_hex`**
+   Prints a hex equivalent of a 32-bit number
+   **Prototype:**
+
+   ```c
+   static void print_hex(uint32_t value);
+   ```
+
+9. **`newline`**
+   Increments the line number.
+   **Prototype:**
+
+   ```c
+   static void newline();
+   ```
+
 ---
 
 ### **Color Encoding for VGA Text Mode**

@@ -120,4 +120,15 @@ void clear_line(int line);
  */
 void set_cursor(int x, int y);
 
+/**
+ * @brief This function prints a hex value out of a given 32-bit value
+ * @param value The 32-bit value to print hex equivalent of
+ */
+static void print_hex(uint32_t value);
+
+/**
+ * @brief Prints a newline character on the VGA screen
+ */
+static void newline();
+
 #endif
