@@ -45,13 +45,13 @@ void print_char(VGA_Color fg, VGA_Color bg, char c) {
     }
 }
 
-void print(const char *s, VGA_Color fg, VGA_Color bg) {
+void print(const char *s) {
     for (; *s; s++) {
-        print_char(fg, bg, *s);
+        print_char(COLOR_WHITE, COLOR_BLACK, *s);
     }
 }
 
-void print_i(long int value, VGA_Color fg, VGA_Color bg) {
+void print_i(long int value) {
     char buffer[12];  // Enough to hold "-2147483648\0"
     char *ptr = buffer + sizeof(buffer) - 1;
     *ptr = '\0';
@@ -66,14 +66,14 @@ void print_i(long int value, VGA_Color fg, VGA_Color bg) {
     if (is_negative) {
         *--ptr = '-';
     }
-    print(ptr, fg, bg);
+    print(ptr);
 }
 
-void print_on(u8 line_number, const char *s, VGA_Color fg, VGA_Color bg) {
+void print_on(u8 line_number, const char *s) {
     if (line_number >= ROWS) return;
     cursor_x = 0;
     cursor_y = line_number;
-    print(s, fg, bg);
+    print(s);
 }
 
 void print_colored(const char *string, uint8_t color) {
@@ -130,7 +130,7 @@ static void print_hex(uint32_t value) {
         buffer[7 - i] = nibble < 10 ? ('0' + nibble) : ('A' + (nibble - 10));
     }
     buffer[8] = '\0';
-    print(buffer, COLOR_GREEN, COLOR_BLACK);
+    print(buffer);
 }
 
 static void newline() { print_char(COLOR_GREEN, COLOR_BLACK, '\n'); }

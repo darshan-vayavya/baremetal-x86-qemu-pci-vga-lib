@@ -77,7 +77,7 @@ Good resource:
    **Prototype:**  
 
    ```c
-   void print(const char *s, VGA_Color fg, VGA_Color bg);
+   void print(const char *s);
    ```
 
 2. **`print_i`**  
@@ -85,7 +85,7 @@ Good resource:
    **Prototype:**  
 
    ```c
-   void print_i(long int value, VGA_Color fg, VGA_Color bg);
+   void print_i(long int value);
    ```
 
 3. **`print_on`**  
@@ -93,7 +93,7 @@ Good resource:
    **Prototype:**  
 
    ```c
-   void print_on(u8 line_number, const char *s, VGA_Color fg, VGA_Color bg);
+   void print_on(u8 line_number, const char *s);
    ```
 
 4. **`set_cursor`**  

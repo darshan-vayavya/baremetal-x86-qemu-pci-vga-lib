@@ -81,7 +81,7 @@ void print_char(VGA_Color fg, VGA_Color bg, char c);
  * @param fg The foreground color of the character
  * @param bg The background color of the character
  */
-void print(const char *s, VGA_Color fg, VGA_Color bg);
+void print(const char *s);
 
 /**
  * @brief Display an integer at the current cursor position
@@ -89,7 +89,7 @@ void print(const char *s, VGA_Color fg, VGA_Color bg);
  * @param fg The foreground color of the character
  * @param bg The background color of the character
  */
-void print_i(long int value, VGA_Color fg, VGA_Color bg);
+void print_i(long int value);
 
 /**
  * @brief Display a string at a specific line without moving the cursor
@@ -98,7 +98,7 @@ void print_i(long int value, VGA_Color fg, VGA_Color bg);
  * @param fg The foreground color of the character
  * @param bg The background color of the character
  */
-void print_on(u8 line_number, const char *s, VGA_Color fg, VGA_Color bg);
+void print_on(u8 line_number, const char *s);
 
 /**
  * @brief Prints a colored string starting at the current cursor position.
