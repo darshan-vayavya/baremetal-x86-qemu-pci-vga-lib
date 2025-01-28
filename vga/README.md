@@ -66,7 +66,7 @@ Good resource:
 3. [VGA Display Controller - DIGILENT™️](https://digilent.com/reference/learn/programmable-logic/tutorials/vga-display-congroller/start)
 4. [TinyVGA - Microcontroller VGA Projects](http://www.tinyvga.com/)
 
-### **Function Definitions**
+## **Function Definitions**
 
 ---
 
