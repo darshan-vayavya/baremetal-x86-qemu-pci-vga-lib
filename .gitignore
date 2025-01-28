@@ -1,0 +1,5 @@
+# Ignore Hidden Folders
+.*/
+
+# Ignore hidden files
+.*
