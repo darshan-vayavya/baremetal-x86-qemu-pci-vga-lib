@@ -3,3 +3,8 @@
 
 # Ignore hidden files
 .*
+
+# Ignore object files and executables
+*.o
+*.out
+*.exe
