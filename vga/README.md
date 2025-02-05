@@ -105,11 +105,11 @@ Good resource:
    ```
 
 5. **`clear`**  
-   Clears the entire VGA text mode screen and fills it with the specified background color.  
+   Clears the entire VGA text mode screen and fills it with black color.  
    **Prototype:**  
 
    ```c
-   void clear(VGA_Color bg);
+   void clear();
    ```
 
 6. **`clear_line`**  
@@ -125,7 +125,7 @@ Good resource:
    **Prototype:**  
 
    ```c
-   void print_colored(const char *string, uint8_t color);
+   void print_colored(const char *string, VGA_Color textColor, VGA_Color background);
    ```
 
 8. **`print_hex`**

@@ -1,5 +1,11 @@
 #include "vga.h"
 
+u16 *const video = (u16 *)VGA_BASE;
+
+/* Keeps track of the current cursor position */
+static u8 cursor_x = 0;
+static u8 cursor_y = 0;
+
 void putc(u8 x, u8 y, VGA_Color fg, VGA_Color bg, char c) {
     if (x >= COLS || y >= ROWS) return;
 
@@ -7,11 +13,11 @@ void putc(u8 x, u8 y, VGA_Color fg, VGA_Color bg, char c) {
     video[y * COLS + x] = value;
 }
 
-void clear(VGA_Color bg) {
+void clear() {
     cursor_x = 0;
     cursor_y = 0;
     for (u8 y = 0; y < ROWS; y++)
-        for (u8 x = 0; x < COLS; x++) putc(x, y, bg, bg, ' ');
+        for (u8 x = 0; x < COLS; x++) putc(x, y, COLOR_BLACK, COLOR_BLACK, ' ');
 }
 
 void print_char(VGA_Color fg, VGA_Color bg, char c) {
@@ -56,12 +62,17 @@ void print_i(long int value) {
     char *ptr = buffer + sizeof(buffer) - 1;
     *ptr = '\0';
     int is_negative = value < 0;
-    if (is_negative) value = -value;
+    if (is_negative) {
+        value = -value;
+    }
+    if (value == 0) {
+        *--ptr = '0';
+    }
 
     do {
         *--ptr = '0' + (value % 10);
         value /= 10;
-    } while (value);
+    } while (value > 0);
 
     if (is_negative) {
         *--ptr = '-';
@@ -76,7 +87,9 @@ void print_on(u8 line_number, const char *s) {
     print(s);
 }
 
-void print_colored(const char *string, uint8_t color) {
+void print_colored(const char *string, VGA_Color textColor,
+                   VGA_Color background) {
+    u8 color = (background << 4) | textColor;
     for (; *string; string++) {
         if (*string == '\n') {
             cursor_x = 0;
@@ -123,7 +136,7 @@ void set_cursor(int x, int y) {
     }
 }
 
-static void print_hex(uint32_t value) {
+void print_hex(uint32_t value) {
     char buffer[9];
     for (int i = 7; i >= 0; i--) {
         int nibble = (value >> (i * 4)) & 0xF;
@@ -133,4 +146,4 @@ static void print_hex(uint32_t value) {
     print(buffer);
 }
 
-static void newline() { print_char(COLOR_GREEN, COLOR_BLACK, '\n'); }
+void newline() { print_char(COLOR_GREEN, COLOR_BLACK, '\n'); }

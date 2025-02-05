@@ -22,8 +22,6 @@
 typedef uint8_t u8;
 typedef uint16_t u16;
 
-u16 *const video = (u16 *)VGA_BASE;
-
 /* The ENUM containing 8-bit color. VGA uses 16-bit color, 8-bit for foreground
  * and background each */
 typedef enum {
@@ -45,10 +43,6 @@ typedef enum {
     COLOR_WHITE = 0xF
 } VGA_Color;
 
-/* Keeps track of the current cursor position */
-static u8 cursor_x = 0;
-static u8 cursor_y = 0;
-
 /* Main functions */
 
 /**
@@ -62,10 +56,9 @@ static u8 cursor_y = 0;
 void putc(u8 x, u8 y, VGA_Color fg, VGA_Color bg, char c);
 
 /**
- * @brief Clear the screen with a specified background color
- * @param bg The background color to use/set
+ * @brief Clear the screen with black color
  */
-void clear(VGA_Color bg);
+void clear();
 
 /**
  * @brief Handle special characters and move the cursor automatically
@@ -103,9 +96,11 @@ void print_on(u8 line_number, const char *s);
 /**
  * @brief Prints a colored string starting at the current cursor position.
  * @param string Pointer to the null-terminated string to be displayed.
- * @param color 8-bit VGA color code combining foreground and background colors.
+ * @param textColor Color of the text
+ * @param background Color of the background
  */
-void print_colored(const char *string, uint8_t color);
+void print_colored(const char *string, VGA_Color textColor,
+                   VGA_Color background);
 
 /**
  * @brief Clears the specified line on the VGA text display.
@@ -124,11 +119,11 @@ void set_cursor(int x, int y);
  * @brief This function prints a hex value out of a given 32-bit value
  * @param value The 32-bit value to print hex equivalent of
  */
-static void print_hex(uint32_t value);
+void print_hex(uint32_t value);
 
 /**
  * @brief Prints a newline character on the VGA screen
  */
-static void newline();
+void newline();
 
 #endif
