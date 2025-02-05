@@ -171,6 +171,12 @@ MSI-X improves upon the original MSI method by introducing the following feature
 
 MSI and MSI-X are critical technologies for improving interrupt handling in high-performance systems, and they are especially beneficial for devices that generate a large number of interrupts (like network cards, storage controllers, and GPUs).
 
+## **Including**
+
+```c
+#include <pci.h>
+```
+
 ## **Function Definitions**
 
 - **`getVID`**  
@@ -275,4 +281,12 @@ MSI and MSI-X are critical technologies for improving interrupt handling in high
 
    ```c
    void enumerate_pci_devices();
+   ```
+
+- **`print_pci_capabilities`**
+   Prints capabilities of a given device onto VGA.
+   **Prototype:**  
+
+   ```c
+   void print_pci_capabilities(uint8_t bus, uint8_t device, uint8_t function);
    ```
