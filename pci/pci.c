@@ -51,6 +51,26 @@ uint32_t getBAR0(uint8_t bus, uint8_t device, uint8_t function) {
     return pci_read_config(address);
 }
 
+void writeMSIXAddress(uint8_t bus, uint8_t device, uint8_t function,
+                      uint32_t cap_offset, uint32_t entry_index,
+                      uint64_t address) {
+    uint32_t lower = (uint32_t)(address & 0xFFFFFFFF);
+    uint32_t upper = (uint32_t)((address >> 32) & 0xFFFFFFFF);
+    uint32_t entry_offset = cap_offset + MSIX_TABLE_ENTRY_SIZE * entry_index;
+
+    pci_write_config(PCI_CONFIG_ADDRESS(bus, device, function, entry_offset),
+                     lower);
+    pci_write_config(PCI_CONFIG_ADDRESS(bus, device, function, entry_offset + 4),
+                     upper);
+}
+
+void writeMSIXData(uint8_t bus, uint8_t device, uint8_t function,
+                   uint32_t cap_offset, uint32_t entry_index, uint32_t data) {
+    uint32_t entry_offset = cap_offset + MSIX_TABLE_ENTRY_SIZE * entry_index + 8;
+    pci_write_config(PCI_CONFIG_ADDRESS(bus, device, function, entry_offset),
+                     data);
+}
+
 bool checkMSIXCapability(uint8_t bus, uint8_t device, uint8_t function,
                          uint32_t *cap_offset) {
     uint32_t status =
@@ -144,9 +164,12 @@ void enableMSIX(uint8_t bus, uint8_t device, uint8_t function,
 }
 
 void configureMSIXCapability(uint8_t bus, uint8_t device, uint8_t function,
-                             uint64_t tableOffset, uint64_t pbaOffset) {
-    writeMSIXAddress(bus, device, function, tableOffset);
-    writeMSIXAddress(bus, device, function, pbaOffset);
+                             uint32_t cap_offset, uint64_t tableOffset,
+                             uint64_t pbaOffset) {
+    writeMSIXAddress(bus, device, function, cap_offset, PCI_MSIX_TABLE_OFFSET,
+                     tableOffset);
+    writeMSIXAddress(bus, device, function, cap_offset, PCI_MSIX_PBA_OFFSET,
+                     pbaOffset);
 }
 
 void pci_enumerate() {

@@ -20,7 +20,7 @@
 #define PCI_MSIX_PBA_OFFSET 0x08
 #define MSIX_ENABLE (1 << 15)
 #define MSIX_FUNCTION_MASK (1 << 14)
-// Size of each MSI-X table entry
+/* Size of each MSI-X table entry */
 #define MSIX_TABLE_ENTRY_SIZE 16
 
 #define PCI_MAX_BUSES 256
@@ -108,6 +108,40 @@ uint16_t getDID(uint8_t bus, uint8_t device, uint8_t function);
 uint32_t getBAR0(uint8_t bus, uint8_t device, uint8_t function);
 
 /**
+ * @brief Writes to the MSI-X Message Table Address.
+ * This function writes the specified address to the MSI-X Message Table entry
+ * at the given index. The address is written into the MSI-X Table for the
+ * corresponding PCI device, enabling the device to send MSI-X interrupts
+ * to the specified address.
+ * @param bus The PCI bus number of the device.
+ * @param device The PCI device number on the bus.
+ * @param function The PCI function number of the device.
+ * @param cap_offset The offset of the MSI-X capability structure in the PCI
+ * configuration space.
+ * @param entry_index The index of the MSI-X Table entry to write the address to.
+ * @param address The 64-bit address to write to the MSI-X Table entry.
+ */
+void writeMSIXAddress(uint8_t bus, uint8_t device, uint8_t function,
+                      uint32_t cap_offset, uint32_t entry_index,
+                      uint64_t address);
+/**
+ * @brief Writes to the MSI-X Message Table Data.
+ * This function writes the specified data to the MSI-X Message Table entry
+ * at the given index. The data is written into the MSI-X Table for the
+ * corresponding PCI device, enabling the device to trigger interrupts with
+ * the specified data.
+ * @param bus The PCI bus number of the device.
+ * @param device The PCI device number on the bus.
+ * @param function The PCI function number of the device.
+ * @param cap_offset The offset of the MSI-X capability structure in the PCI
+ * configuration space.
+ * @param entry_index The index of the MSI-X Table entry to write the data to.
+ * @param data The 32-bit data to write to the MSI-X Table entry.
+ */
+void writeMSIXData(uint8_t bus, uint8_t device, uint8_t function,
+                   uint32_t cap_offset, uint32_t entry_index, uint32_t data);
+
+/**
  * @brief Initializes the MSI-X Message Control register for the specified PCI
  * device. This function writes the appropriate values to the MSI-X Message
  * Control register to enable MSI-X and set the number of vectors in the MSI-X
@@ -168,13 +202,32 @@ bool checkMSIXCapability(uint8_t bus, uint8_t device, uint8_t function,
 void setupMSIXPendingArrayWithDwordAccess(uint8_t bus, uint8_t device,
                                           uint8_t function, uint32_t pba_base,
                                           uint32_t num_vectors);
+/**
+ * @brief Configures the MSI-X Capability Structure by setting the Table Offset
+ * and PBA Offset.
+ * This function configures the MSI-X capability structure by writing the
+ * provided Table Offset and Pending Bit Array (PBA) Offset to the appropriate
+ * locations in the MSI-X capability structure for the specified PCI device.
+ * @param bus The PCI bus number of the device.
+ * @param device The PCI device number on the bus.
+ * @param function The PCI function number of the device.
+ * @param cap_offset The offset of the MSI-X capability structure in the PCI
+ * configuration space.
+ * @param tableOffset The address of the MSI-X Message Table to be written to the
+ * MSI-X capability structure.
+ * @param pbaOffset The address of the MSI-X Pending Bit Array (PBA) to be
+ * written to the MSI-X capability structure.
+ */
+void configureMSIXCapability(uint8_t bus, uint8_t device, uint8_t function,
+                             uint32_t cap_offset, uint64_t tableOffset,
+                             uint64_t pbaOffset);
 
 /**
- * @brief Enables MSI-X for the specified PCI device and initializes the MSI-X
- * Table and Pending Bit Array. This function checks for the MSI-X capability and
- * then enables MSI-X by writing to the Message Control register. It also sets up
- * the MSI-X Table entries and updates the Pending Bit Array for the specified
- * number of vectors.
+ * @brief Enables MSI-X for the specified PCI device and initializes the
+ * MSI-X Table and Pending Bit Array. This function checks for the MSI-X
+ * capability and then enables MSI-X by writing to the Message Control
+ * register. It also sets up the MSI-X Table entries and updates the Pending
+ * Bit Array for the specified number of vectors.
  * @param bus        The bus number where the PCI device is located.
  * @param device     The device number of the PCI device.
  * @param function   The function number of the PCI device.

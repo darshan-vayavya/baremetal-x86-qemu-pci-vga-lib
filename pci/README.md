@@ -275,7 +275,17 @@ MSI and MSI-X are critical technologies for improving interrupt handling in high
    void pci_write_config(uint8_t bus, uint8_t device, uint8_t function, uint8_t offset, uint32_t value);
    ```
 
+- **`configureMSIXCapability`**
+   Sets up the MSI-X Pending Bit Array (PBA) for the specified PCI device.
+   **Prototype**
+
+   ```c
+   void configureMSIXCapability(uint8_t bus, uint8_t device, uint8_t function,
+                             uint32_t cap_offset, uint64_t tableOffset, uint64_t pbaOffset) 
+   ```
+
 - **`enumerate_pci_devices`**  
+
    Enumerates all PCI devices on the bus and stores their details for debugging.  
    **Prototype:**  
 
