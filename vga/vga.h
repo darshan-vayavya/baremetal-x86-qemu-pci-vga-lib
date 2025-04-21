@@ -77,6 +77,11 @@ void print_char(VGA_Color fg, VGA_Color bg, char c);
 void print(const char *s);
 
 /**
+ * @brief Alternate function name for @see print
+ */
+void show(const char *s);
+
+/**
  * @brief Display an integer at the current cursor position
  * @param value The value to print
  * @param fg The foreground color of the character

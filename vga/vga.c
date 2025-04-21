@@ -57,6 +57,8 @@ void print(const char *s) {
     }
 }
 
+void show(const char *s) { print(s); }
+
 void print_i(long int value) {
     char buffer[12];  // Enough to hold "-2147483648\0"
     char *ptr = buffer + sizeof(buffer) - 1;
