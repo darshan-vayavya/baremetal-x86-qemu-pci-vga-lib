@@ -131,4 +131,9 @@ void print_hex(uint32_t value);
  */
 void newline();
 
+/**
+ * @brief Alternate to clear
+ */
+void clear_screen();
+
 #endif

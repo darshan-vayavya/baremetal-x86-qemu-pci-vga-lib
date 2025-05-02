@@ -20,6 +20,10 @@ void clear() {
         for (u8 x = 0; x < COLS; x++) putc(x, y, COLOR_BLACK, COLOR_BLACK, ' ');
 }
 
+void clear_screen(){
+    clear();
+}
+
 void print_char(VGA_Color fg, VGA_Color bg, char c) {
     if (c == '\n') {
         cursor_x = 0;
